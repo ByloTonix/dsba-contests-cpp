@@ -40,9 +40,8 @@ Type a four-letter code for the word.
 std::string removeVowels(std::string s) {
     std::string str;
     for (size_t i = 0; i < s.length(); i++) {
-        if (s[i] != 'a' and s[i] != 'e' and s[i] != 'h' and s[i] != 'i' and s[i] != 'o' and s[i] != 'u' and s[i] != 'w' and s[i] != 'y') {
+        if (s[i] != 'a' and s[i] != 'e' and s[i] != 'h' and s[i] != 'i' and s[i] != 'o' and s[i] != 'u' and s[i] != 'w' and s[i] != 'y')
             str += s[i];
-        }
     }
     return str;
 }
