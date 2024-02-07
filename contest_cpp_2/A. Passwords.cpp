@@ -47,10 +47,9 @@ Vasya123 YES
 */
 
 #include <iostream>
-int main() {
-    std::string passwd;
+
+bool passwdChecker(std::string passwd) {
     bool caps = 0, lows = 0, nums = 0, other = 0;
-    std::cin >> passwd;
     if (passwd.length() >= 8 and passwd.length() <= 14)
         for (size_t i = 0; i < passwd.length(); i++) {
             if (char(passwd[i]) >= 33 and char(passwd[i] <= 127)) {
@@ -65,6 +64,15 @@ int main() {
             }
         }
     if (nums + caps + lows + other >= 3)
+        return 1;
+    else
+        return 0;
+}
+
+int main() {
+    std::string passwd;
+    std::cin >> passwd;
+    if (passwdChecker(passwd))
         std::cout << "YES";
     else
         std::cout << "NO";
