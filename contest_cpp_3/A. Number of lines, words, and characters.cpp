@@ -46,10 +46,8 @@ void counter(std::ifstream& file, int& letters, int& words, int& lines) {
 
 int main() {
     std::ifstream file("input.txt");
-
     int letters, words, lines;
     counter(file, letters, words, lines);
     std::cout << "Input file contains:" << '\n' << letters << " letters" << '\n' << words << " words" << '\n' << lines << " lines";
-
     return 0;
 }
