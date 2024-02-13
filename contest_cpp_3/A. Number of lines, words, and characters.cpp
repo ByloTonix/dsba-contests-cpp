@@ -49,10 +49,7 @@ int main() {
 
     int letters, words, lines;
     counter(file, letters, words, lines);
-    std::cout << "Input file contains:" << '\n';
-    std::cout << letters << " letters" << '\n';
-    std::cout << words << " words" << '\n';
-    std::cout << lines << " lines" << '\n';
+    std::cout << "Input file contains:" << '\n' << letters << " letters" << '\n' << words << " words" << '\n' << lines << " lines";
 
     return 0;
 }
