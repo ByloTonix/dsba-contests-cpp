@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -O0 -Werror=return-type -rdynamic CMakeFiles/contest3.dir/src/main.cpp.o -o contest3 

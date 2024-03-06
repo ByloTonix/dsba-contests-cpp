@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/bylotonix/Desktop/contest3/build",
+  "command": "/usr/bin/g++   -g -O0 -Werror=return-type -std=gnu++17 -o CMakeFiles/contest3.dir/src/main.cpp.o -c /home/bylotonix/Desktop/contest3/src/main.cpp",
+  "file": "/home/bylotonix/Desktop/contest3/src/main.cpp",
+  "output": "CMakeFiles/contest3.dir/src/main.cpp.o"
+}
+]

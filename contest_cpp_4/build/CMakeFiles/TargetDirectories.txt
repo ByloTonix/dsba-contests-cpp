@@ -1,0 +1,3 @@
+/home/bylotonix/Desktop/contest3/build/CMakeFiles/contest3.dir
+/home/bylotonix/Desktop/contest3/build/CMakeFiles/edit_cache.dir
+/home/bylotonix/Desktop/contest3/build/CMakeFiles/rebuild_cache.dir
