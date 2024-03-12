@@ -20,96 +20,110 @@
 
 // Your solution should not have main function. Please provide only class Complex and required functions.
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
 
-class Complex {
+class Complex
+{
 private:
     double Real;
     double Imaginary;
+
 public:
     // Конструкторы
-    Complex(); // Конструктор по умолчанию
-    Complex(double Real, double Imaginary = 0); // Конструктор с параметрами (мнимая часть по умолчанию равна 0)
-    Complex(const Complex &other); // Конструктор копирования
-    
+    Complex();                                 // Конструктор по умолчанию
+    Complex(double Real, double Imaginary = 0);// Конструктор с параметрами (мнимая часть по умолчанию равна 0)
+    Complex(const Complex& other);             // Конструктор копирования
+
     // Перегрузка операторов
-    const Complex &operator=(const Complex &other); // Оператор присваивания
-    Complex operator+(const Complex &other) const; // Оператор сложения
-    Complex operator-(const Complex &other) const; // Оператор вычитания
-    Complex operator*(const Complex &other) const; // Оператор умножения
-    Complex operator/(const Complex &other) const; // Оператор деления
+    const Complex& operator=(const Complex& other);// Оператор присваивания
+    Complex operator+(const Complex& other) const; // Оператор сложения
+    Complex operator-(const Complex& other) const; // Оператор вычитания
+    Complex operator*(const Complex& other) const; // Оператор умножения
+    Complex operator/(const Complex& other) const; // Оператор деления
 
     // Логические операторы равенства и неравенства
-    bool operator==(const Complex &other) const;
-    bool operator!=(const Complex &other) const;
-    
+    bool operator==(const Complex& other) const;
+    bool operator!=(const Complex& other) const;
+
     // Унарные операторы сложения и вычитания
     Complex operator+() const;
     Complex operator-() const;
 
     // Методы для получения частей комплексного числа
     double Re() const { return Real; }
-    double Im() const {return Imaginary; }
-    
+    double Im() const { return Imaginary; }
+
     // Функция для вычисления модуля комплексного числа
     // friend дает доступ к private class
-    friend double abs(const Complex& c) {
+    friend double abs(const Complex& c)
+    {
         return std::sqrt(c.Real * c.Real + c.Imaginary * c.Imaginary);
     }
 
     // Перегрузка оператора вывода для класса Complex
-    friend std::ostream &operator<<(std::ostream &out, const Complex &c);
+    friend std::ostream& operator<<(std::ostream& out, const Complex& c);
+
+    friend Complex operator*(int left, const Complex& right); // Умножение на целое число
+
 };
 
 
-std::ostream &operator<<(std::ostream &out, const Complex &c) {
-    out << "(" << c.Re() << "," << c.Im() << ")"; // Вывод комплексного числа в формате (a, b)
+std::ostream& operator<<(std::ostream& out, const Complex& c)
+{
+    out << "(" << c.Re() << "," << c.Im() << ")";// Вывод комплексного числа в формате (a, b)
     return out;
 }
 
 // Реализация методов класса Complex
 
 // Конструктор по умолчанию инициализирует действительную и мнимую части нулями
-Complex::Complex(): Real(0), Imaginary(0) {}
+Complex::Complex() : Real(0), Imaginary(0) {}
 
 // Конструктор с параметрами инициализирует действительную и мнимую части заданными значениями
-Complex::Complex(double Real, double Imaginary): Real(Real), Imaginary(Imaginary) {}
+Complex::Complex(double Real, double Imaginary) : Real(Real), Imaginary(Imaginary) {}
 
 // Конструктор копирования копирует значения действительной и мнимой частей из другого объекта
-Complex::Complex(const Complex &other) {
+Complex::Complex(const Complex& other)
+{
     Real = other.Real;
     Imaginary = other.Imaginary;
 }
 // вообще эти три можно перенести в паблик, но пока рано
 
 // Оператор присваивания
-const Complex &Complex::operator=(const Complex &other) {
+const Complex& Complex::operator=(const Complex& other)
+{
     Real = other.Real;
     Imaginary = other.Imaginary;
     return *this;
 }
 
 // Оператор сложения
-Complex Complex::operator+(const Complex &other) const{
+Complex Complex::operator+(const Complex& other) const
+{
     return Complex(Real + other.Real, Imaginary + other.Imaginary);
 }
 
 // Оператор вычитания
-Complex Complex::operator-(const Complex &other) const{
+Complex Complex::operator-(const Complex& other) const
+{
     return Complex(Real - other.Real, Imaginary - other.Imaginary);
 }
 
 // Оператор умножения
-Complex Complex::operator*(const Complex &other) const{
+Complex Complex::operator*(const Complex& other) const
+{
     return Complex(Real * other.Real - Imaginary * other.Imaginary, other.Real * Imaginary + Real * other.Imaginary);
 }
 
 // Оператор деления
-Complex Complex::operator/(const Complex &other) const{
+Complex Complex::operator/(const Complex& other) const
+{
     double denominator = other.Real * other.Real + other.Imaginary * other.Imaginary;
-    if (denominator == 0) {
+    if (denominator == 0)
+    {
         throw std::invalid_argument("Division by ZERO");
     }
     double newReal = (Real * other.Real + Imaginary * other.Imaginary) / denominator;
@@ -118,25 +132,33 @@ Complex Complex::operator/(const Complex &other) const{
 }
 
 // Оператор сравнения на равенство
-bool Complex::operator==(const Complex &other) const{
+bool Complex::operator==(const Complex& other) const
+{
     return (Real == other.Real && Imaginary == other.Imaginary);
 }
 
 // Оператор сравнения на неравенство
-bool Complex::operator!=(const Complex &other) const{
+bool Complex::operator!=(const Complex& other) const
+{
     return !(*this == other);
 }
 
 // Унарный оператор плюс
-Complex Complex::operator+() const {
+Complex Complex::operator+() const
+{
     return *this;
 }
 
 // Унарный оператор минус
-Complex Complex::operator-() const {
+Complex Complex::operator-() const
+{
     return Complex(-Real, -Imaginary);
 }
 
+// Умножение на целое число
+Complex operator*(int left, const Complex& right) {
+    return Complex(left * right.Real, left * right.Imaginary);
+}
 
 int main() {
     Complex a(3, 4);
