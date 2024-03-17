@@ -1,5 +1,6 @@
+#include <cmath>
 #include <iostream>
-#include <stdexcept>
+#include <numeric>
 
 class Rational
 {
@@ -7,182 +8,217 @@ private:
     int Numerator;
     int Denominator;
 
-    int gcd(int a, int b)
-    {
-        while (a)
-        {
-            auto t = b % a;
-            b = a;
-            a = t;
-        }
-        return b;
-    }
-
     void reducer()
     {
-        auto g = gcd(Numerator < 0 ? -Numerator : Numerator, Denominator);
-        Numerator /= g;
-        Denominator /= g;
+        int d = std::gcd(Numerator, Denominator);
+        Numerator /= d;
+        Denominator /= d;
         if (Denominator < 0)
         {
-            Numerator *= -1;
-            Denominator *= -1;
+            Numerator = -Numerator;
+            Denominator = -Denominator;
         }
     }
 
 public:
-    Rational(int n = 0, int d = 1) : Numerator(n), Denominator(d)
+    // Конструкторы
+    Rational(int Numerator = 0, int Denominator = 1);
+    Rational(const Rational& other);
+
+    // Перегрузка операторов
+    const Rational& operator=(const Rational& other);
+    Rational operator+(const Rational& other) const;
+    Rational operator-(const Rational& other) const;
+    Rational operator*(const Rational& other) const;
+    Rational operator/(const Rational& other) const;
+
+    Rational operator+=(const Rational& other);
+    Rational operator-=(const Rational& other);
+    Rational operator*=(const Rational& other);
+    Rational operator/=(const Rational& other);
+
+    bool operator==(const Rational& other) const;
+    bool operator!=(const Rational& other) const;
+
+    Rational operator+() const;
+    Rational operator-() const;
+
+    Rational& operator++();
+    Rational operator++(int);
+    Rational& operator--();
+    Rational operator--(int);
+
+    int numerator() const { return Numerator; }
+    int denominator() const { return Denominator; }
+
+    Rational operator+(int value) const
     {
-        if (Denominator == 0)
-        {
-            throw std::invalid_argument("Denominator cannot be zero");
-        }
-        reducer();
+        return Rational(Numerator + value * Denominator, Denominator);
     }
 
-    Rational(const Rational& other) : Numerator(other.Numerator), Denominator(other.Denominator) {}
-
-    const Rational& operator=(const Rational& other)
+    friend Rational operator+(int value, const Rational& rational)
     {
-        Numerator = other.Numerator;
-        Denominator = other.Denominator;
-        return *this;
+        return rational + value;
     }
 
-    Rational operator+(const Rational& other) const
+    Rational operator-(int value) const
     {
-        return Rational(Numerator * other.Denominator + other.Numerator * Denominator,
-                        Denominator * other.Denominator);
+        return Rational(Numerator - value * Denominator, Denominator);
     }
 
-    Rational operator-(const Rational& other) const
+    friend Rational operator-(int value, const Rational& rational)
     {
-        return *this + Rational(-other.Numerator, other.Denominator);
+        return Rational(value * rational.Denominator - rational.Numerator, rational.Denominator);
     }
 
-    Rational operator*(const Rational& other) const
+    Rational operator*(int value) const
     {
-        return Rational(Numerator * other.Numerator, Denominator * other.Denominator);
+        return Rational(Numerator * value, Denominator);
     }
 
-    Rational operator/(const Rational& other) const
+    friend Rational operator*(int value, const Rational& rational)
     {
-        if (other.Numerator == 0)
-        {
-            throw std::invalid_argument("Division by ZERO");
-        }
-        return Rational(Numerator * other.Denominator, Denominator * other.Numerator);
+        return rational * value;
     }
 
-    Rational operator+=(const Rational& other)
+    Rational operator/(int value) const
     {
-        *this = *this + other;
-        return *this;
+        return Rational(Numerator, Denominator * value);
     }
 
-    Rational operator-=(const Rational& other)
+    friend Rational operator/(int value, const Rational& rational)
     {
-        *this = *this - other;
-        return *this;
+        return Rational(value * rational.Denominator, rational.Numerator);
     }
 
-    Rational operator*=(const Rational& other)
-    {
-        *this = *this * other;
-        return *this;
-    }
+    // friend дает доступ к private class
+    friend std::ostream& operator<<(std::ostream& out, const Rational& c);
 
-    Rational operator/=(const Rational& other)
-    {
-        *this = *this / other;
-        return *this;
-    }
-
-    bool operator==(const Rational& other) const
-    {
-        return (Numerator == other.Numerator && Denominator == other.Denominator);
-    }
-
-    bool operator!=(const Rational& other) const
-    {
-        return !(*this == other);
-    }
-
-    Rational operator+() const
-    {
-        return *this;
-    }
-
-    Rational operator-() const
-    {
-        return Rational(-Numerator, Denominator);
-    }
-
-    Rational& operator++()
-    {
-        Numerator += Denominator;
-        reducer();
-        return *this;
-    }
-
-    Rational operator++(int)
-    {
-        Rational temp = *this;
-        ++(*this);
-        return temp;
-    }
-
-    Rational& operator--()
-    {
-        Numerator -= Denominator;
-        reducer();
-        return *this;
-    }
-
-    Rational operator--(int)
-    {
-        Rational temp = *this;
-        --(*this);
-        return temp;
-    }
-
-    int numerator() const
-    {
-        return Numerator;
-    }
-
-    int denominator() const
-    {
-        return Denominator;
-    }
-
-    friend std::ostream& operator<<(std::ostream& out, const Rational& c)
-    {
-        out << c.numerator() << "/" << c.denominator();
-        return out;
-    }
+    friend Rational operator*(int left, const Rational& right);// Умножение на целое число
 };
 
-Rational operator+(int value, const Rational& rational)
+std::ostream& operator<<(std::ostream& out, const Rational& c)
 {
-    return rational + value;
+    out << c.numerator() << "/" << c.denominator();
+    return out;
 }
 
-Rational operator-(int value, const Rational& rational)
+// Реализация методов класса Rational
+
+Rational::Rational(int Numerator, int Denominator) : Numerator(Numerator), Denominator(Denominator) { reducer(); }
+Rational::Rational(const Rational& other)
 {
-    return Rational(value * rational.denominator() - rational.numerator(), rational.denominator());
+    Numerator = other.Numerator;
+    Denominator = other.Denominator;
 }
 
-Rational operator*(int value, const Rational& rational)
+// Оператор присваивания
+const Rational& Rational::operator=(const Rational& other)
 {
-    return rational * value;
+    Numerator = other.Numerator;
+    Denominator = other.Denominator;
+    return *this;
 }
 
-Rational operator/(int value, const Rational& rational)
+// Оператор сложения
+Rational Rational::operator+(const Rational& other) const
 {
-    if (rational.numerator() == 0)
-    {
-        throw std::invalid_argument("Division by ZERO");
-    }
-    return Rational(value * rational.denominator(), rational.numerator());
+    return Rational(Numerator * other.Denominator + other.Numerator * Denominator, Denominator * other.Denominator);
+}
+
+// Оператор вычитания
+Rational Rational::operator-(const Rational& other) const
+{
+    return -other + *this;
+}
+
+// Оператор умножения
+Rational Rational::operator*(const Rational& other) const
+{
+    return Rational(Numerator * other.Numerator, Denominator * other.Denominator);
+}
+
+// Оператор деления
+Rational Rational::operator/(const Rational& other) const
+{
+    return Rational(Numerator * other.Denominator, Denominator * other.Numerator);
+}
+
+// Оператор сравнения на равенство
+bool Rational::operator==(const Rational& other) const
+{
+    return (Numerator == other.Numerator && Denominator == other.Denominator);
+}
+
+// Оператор сравнения на неравенство
+bool Rational::operator!=(const Rational& other) const
+{
+    return !(*this == other);
+}
+
+// Унарный оператор плюс
+Rational Rational::operator+() const
+{
+    return *this;
+}
+
+// Унарный оператор минус
+Rational Rational::operator-() const
+{
+    return Rational(-Numerator, Denominator);
+}
+
+Rational Rational::operator+=(const Rational& other)
+{
+    *this = *this + other;
+    return *this;
+}
+
+Rational Rational::operator-=(const Rational& other)
+{
+    *this = *this - other;
+    return *this;
+}
+
+Rational Rational::operator*=(const Rational& other)
+{
+    *this = *this * other;
+    return *this;
+}
+
+Rational Rational::operator/=(const Rational& other)
+{
+    *this = *this / other;
+    return *this;
+}
+
+
+Rational& Rational::operator++()
+{
+    Numerator += Denominator;
+    reducer();
+    return *this;
+}
+
+Rational Rational::operator++(int)
+{
+    Rational temp = *this;
+    Numerator += Denominator;
+    reducer();
+    return temp;
+}
+
+Rational& Rational::operator--()
+{
+    Numerator -= Denominator;
+    reducer();
+    return *this;
+}
+
+Rational Rational::operator--(int)
+{
+    Rational temp = *this;
+    Numerator -= Denominator;
+    reducer();
+    return temp;
 }
