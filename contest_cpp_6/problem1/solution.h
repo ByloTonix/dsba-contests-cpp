@@ -205,7 +205,6 @@ void printBibliographyAppearance(std::string& text, const std::map<std::string, 
 // you may modify classes in any way you want to solve this task
 // you may add additional functions
 
-
 bool sort(const std::pair<std::string, Citation*>& a, const std::pair<std::string, Citation*>& b)
 {
     Article* articleA = dynamic_cast<Article*>(a.second);
@@ -213,11 +212,13 @@ bool sort(const std::pair<std::string, Citation*>& a, const std::pair<std::strin
     WebPage* webpageA = dynamic_cast<WebPage*>(a.second);
     WebPage* webpageB = dynamic_cast<WebPage*>(b.second);
 
-    if (articleA) return 1;
+    if (articleA and webpageB) return 1;
     else if (articleA and articleB) return articleA->_lastname < articleB->_lastname;
     else if (webpageA and webpageB) return webpageA->_title < webpageB->_title;
-    else return 0;
+    return 0;
 }
+
+
 
 void insertInlineAlphabetical(std::string& text, const std::map<std::string, Citation*>& citations)
 {
