@@ -1,0 +1,3 @@
+/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/build/CMakeFiles/Problem1.dir
+/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/build/CMakeFiles/edit_cache.dir
+/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/build/CMakeFiles/rebuild_cache.dir

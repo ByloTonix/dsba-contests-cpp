@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/build",
+  "command": "/usr/bin/g++   -g -O0 -Werror=return-type -std=gnu++20 -o CMakeFiles/Problem1.dir/problem1/main.cpp.o -c \"/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/problem1/main.cpp\"",
+  "file": "/home/revoqaux/Documents/dsba-contests-cpp/contest_cpp_6/A. Derived Classes/problem1/main.cpp"
+}
+]
